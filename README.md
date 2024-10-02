@@ -7,6 +7,12 @@ This repository contains the Pokedex application.
 
 Pokedex is an application with which the user can view a list of Pokémon and see the details of a specific Pokémon. To obtain the Pokémon data, the [PokéAPI](https://pokeapi.co/) was used.
 For this, React Native was used
+<h1 align="center">
+  <img width="210" alt="Screenshot" src="https://github.com/ValentiinaC92/pokedex-react-native/blob/master/assets/pokedex1.jpg">
+  <img width="210" alt="Screenshot" src="https://github.com/ValentiinaC92/pokedex-react-native/blob/master/assets/pokedex2.jpg">
+  <img width="210" alt="Screenshot" src="https://github.com/ValentiinaC92/pokedex-react-native/blob/master/assets/pokedex3.jpg">
+  <img width="210" alt="Screenshot" src="https://github.com/ValentiinaC92/pokedex-react-native/blob/master/assets/pokedex4.jpg">
+</h1>
 
 ## Technologies
 This project was developed with the following technologies:
