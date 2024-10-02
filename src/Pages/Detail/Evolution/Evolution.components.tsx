@@ -1,8 +1,9 @@
+
+import { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { ContainerPokemon, PokemonImg, PokemonSection, Section } from "./Evolution.styled";
-import { useEffect, useState } from "react";
 import { usePokemon } from "../../../Hooks/usePokemon";
-import { Evolutions, PokemonAbout, PokemonDetail, Specie, pokemonEvolutionsList } from "../../../Modules/domain/Pokemon";
+import { PokemonAbout, PokemonDetail } from "../../../Modules/domain/Pokemon";
 
 const EvolutionModule = ({ pokemon }: any) => {
     const [pokemonSpecie, setPokemonSpecie] = useState<PokemonAbout>()
@@ -20,12 +21,9 @@ const EvolutionModule = ({ pokemon }: any) => {
 
         const pokemonEvol = await getPokemonEvolution(url)
         if (pokemonEvol) {
-
             setPokemonEvolution(await getPokemon(pokemonEvol?.chain.species.name))
             setPokemonSecondEvolution(await getPokemon(pokemonEvol.chain.evolves_to[0].species.name))
             setLatestEvolution(await getPokemon(pokemonEvol.chain.evolves_to[0]?.evolves_to[0]?.species.name))
-
-
         }
     }
 

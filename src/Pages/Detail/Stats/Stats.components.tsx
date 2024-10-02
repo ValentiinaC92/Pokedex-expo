@@ -1,6 +1,6 @@
 import { Text } from "react-native";
 import { Stat } from "../../../Modules/domain/Pokemon";
-import { Container, Section, SectionContent, SectionTitle, StatGraph, StatLine, StatValue } from "./Stats.styled";
+import { Container, Section, StatGraph, StatLine, StatValue } from "./Stats.styled";
 
 const StatsModule = ({ pokemon }: any) => {
     return (
@@ -10,12 +10,10 @@ const StatsModule = ({ pokemon }: any) => {
                     <Text style={{ width: 129, fontWeight: 500, fontFamily: "monospace" }}>
                         {stat.stat.name}
                     </Text>
-
                     <StatGraph>
                         <Text style={{ width: 30, textAlign: 'right', fontWeight: 400 }}>
                             {stat.base_stat}
                         </Text>
-
                         <StatLine>
                             <StatValue width={stat.base_stat} />
                         </StatLine>

@@ -13,14 +13,9 @@ const MainNavigator = () => {
             <Stack.Screen
                 name="Homepage"
                 component={Homepage}
-                options={({ navigation }) => ({
+                options={() => ({
                     headerTitle: "Pokedex",
                     headerLargeTitle: true,
-                    headerRight: () => (
-                        <TouchableOpacity onPress={() => navigation.navigate("Search")}>
-                            <Text>Search</Text>
-                        </TouchableOpacity>
-                    ),
                 })}
             />
             <Stack.Screen

@@ -15,10 +15,12 @@ const Card = ({ url, name }: PokemonCard) => {
     } = usePokemon();
 
     const getPokemonDetail = async (url: string) => {
-        const pokemonDetail = await getMorePokemon(url)
-        if (pokemonDetail) {
-            setPokemon(pokemonDetail)
-        }
+        await getMorePokemon(url).then((pokemon) => {
+            if (pokemon) {
+                setPokemon(pokemon)
+            }
+        })
+
     }
 
     useEffect(() => {
@@ -29,19 +31,19 @@ const Card = ({ url, name }: PokemonCard) => {
 
     const backgroundColor = useMemo(() => {
         if (pokemon?.types) {
-
             return getColorByPokemonType(pokemon?.types[0].type.name)
         }
     },
         [pokemon?.types],
     );
 
+    if (!pokemon) return null;
     return (
         <CardContainer >
             <Container onPress={() => navigator.navigate("Detail", { name, url })} style={{ backgroundColor }} >
                 <LeftSide>
                     <PokemonId>#{pokemon?.order}</PokemonId>
-                    <PokemonName>{name}</PokemonName>
+                    <PokemonName>{pokemon?.name}</PokemonName>
                     <PokemonContentType>
                         {pokemon?.types.map((pokemonType) => (
                             <PokemonType

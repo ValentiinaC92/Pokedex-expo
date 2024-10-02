@@ -1,17 +1,14 @@
-import { ActivityIndicator, Animated, Dimensions, ScrollView, Text, View } from "react-native"
-import { usePokemon } from "../../Hooks/usePokemon";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { PokemonDetail } from "../../Modules/domain/Pokemon";
+import { ActivityIndicator, ScrollView, View } from "react-native"
+import React, { useEffect, useMemo, useState } from "react";
 import { Content, ContentImage, DetailContainer, Header, PokemonId, PokemonImage, PokemonName, PokemonStyledName, PokemonType, PokemonTypeContainer, PokemonTypeText, Row } from "./Detail.styled";
 import Tabs from "./Tabs/Tabs.component";
+import { usePokemon } from "../../Hooks/usePokemon";
+import { PokemonDetail } from "../../Modules/domain/Pokemon";
 import getColorByPokemonType from "../../Utils/getColorByPokemonType";
 
 const Detail = ({ route }: any) => {
     const { name, url } = route.params;
     const [pokemonDetails, setPokemonDetails] = useState<PokemonDetail>()
-    const scrollViewRef = useRef<ScrollView>(null);
-    const translateX = useMemo(() => new Animated.Value(0), []);
-    const { width } = Dimensions.get('window');
     const {
         getPokemonDetails,
         isLoading
@@ -31,7 +28,6 @@ const Detail = ({ route }: any) => {
 
     const backgroundColor = useMemo(() => {
         if (pokemonDetails?.types) {
-
             return getColorByPokemonType(pokemonDetails?.types[0].type.name)
         }
     },

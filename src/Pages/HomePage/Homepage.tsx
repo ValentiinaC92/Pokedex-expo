@@ -1,35 +1,42 @@
-import { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 
-import Header from '../../Components/Header/Header.component';
+import Card from '../../Components/Card/Card.component';
 
 import { Pokemon } from '../../Modules/domain/Pokemon';
 import { usePokemon } from '../../Hooks/usePokemon';
-import Card from '../../Components/Card/Card.component';
 
 const Homepage = () => {
   const [listPokemon, setListPokemon] = useState<Pokemon[]>([])
   const [nextPokemon, setNextPokemon] = useState<string>("");
+  const [refreshing, setRefreshing] = useState(false);
+  const [loadingInitalData, setLoadingInitialData] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   const {
     getPokemonsList,
     getMorePokemon
   } = usePokemon();
 
   const getPokemon = async () => {
-    const pokemon = await getPokemonsList();
-    if (pokemon) {
-      setNextPokemon(pokemon.next);
-      setListPokemon(pokemon.results);
-    }
+    await getPokemonsList().then((pokemon) => {
+      if (pokemon) {
+        setNextPokemon(pokemon.next);
+        setListPokemon(pokemon.results);
+      }
+    });
   }
 
   const loadMorePokemon = async () => {
+    if (loading) return;
     if (nextPokemon) {
-      const morePokemon = await getMorePokemon(nextPokemon)
-      if (morePokemon) {
-        setListPokemon([...listPokemon, ...morePokemon.results])
+      setLoading(true);
+      await getMorePokemon(nextPokemon).then((morePokemon) => {
+        setListPokemon((prev) => [...prev, ...morePokemon.results])
         setNextPokemon(morePokemon.next)
-      }
+        setLoading(false);
+      })
+
     }
   }
 
@@ -37,16 +44,26 @@ const Homepage = () => {
     getPokemon();
   }, [])
 
+  const refreshList = useCallback(async () => {
+    setRefreshing(true);
+    await getPokemon();
+    setRefreshing(false);
+  }, []);
+
   return (
     <View style={styles.container}>
       <FlatList
         style={styles.flexList}
         data={listPokemon}
-        keyExtractor={(item) => item.name}
-        renderItem={({ item }) => (
-          <Card key={item.name} url={item.url} name={item.name} />
+        keyExtractor={(item) => String(item.name)}
+        onEndReached={() => loadMorePokemon()}
+        onRefresh={refreshList}
+        refreshing={refreshing}
+        renderItem={({ item, index }) => (
+          <Card key={index} url={item.url} name={item.name} />
         )}
-        onEndReached={loadMorePokemon}></FlatList>
+        ListFooterComponent={() => loading ? <ActivityIndicator /> : ""}
+      ></FlatList>
     </View>
   );
 }
